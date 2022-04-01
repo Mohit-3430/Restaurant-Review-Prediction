@@ -1,5 +1,5 @@
 from datetime import date
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 import numpy as np
 import joblib
 
@@ -14,6 +14,15 @@ def home():
     if request.method == "GET":
         return render_template("index.html", title=title, result=False)
     else:
+        return redirect(url_for("predict"))
+
+
+@app.route("/predict", methods=["GET", "POST"])
+def predict():
+    title = "Forecasting eatary returns"
+    if request.method == "GET":
+        return render_template("index.html", title=title, result=False)
+    elif request.method == "POST":
         post_city = request.form["city"]
         post_res = request.form["restaurant"]
 
